@@ -9,7 +9,7 @@ function errorHandler(err, req, res, next) {
   } else {
     res.json({
       message: err.message,
-      stack: err,
+      stack: err.stack,
     });
   }
 }
