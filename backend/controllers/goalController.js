@@ -23,7 +23,7 @@ const setGoal = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Please add a text field");
   }
-  
+
   const newGoal = await GoalModel.create({
     text: req.body.text,
   });
@@ -36,7 +36,21 @@ const setGoal = asyncHandler(async (req, res) => {
  * @access Private
  */
 const updateGoal = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Update goal with id: ${req.params.id}` });
+  const id = req.params.id;
+  const goal = await GoalModel.findById(id);
+
+  if (!goal) {
+    res.status(400);
+    throw new Error("Goal not found.");
+  }
+
+  const updatedGoal = await GoalModel.findByIdAndUpdate(
+    id,
+    req.body,
+    { new: true } // Create if it doesn't exists
+  );
+
+  res.status(200).json(updatedGoal);
 });
 
 /**
@@ -45,7 +59,16 @@ const updateGoal = asyncHandler(async (req, res) => {
  * @access Private
  */
 const deleteGoal = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Delete goal with id: ${req.params.id}` });
+  const id = req.params.id;
+  const goal = await GoalModel.findById(id);
+
+  if (!goal) {
+    res.status(400);
+    throw new Error("Goal not found.");
+  }
+
+  await GoalModel.findByIdAndDelete(id);
+  res.status(200).json({ id });
 });
 
 module.exports = {
