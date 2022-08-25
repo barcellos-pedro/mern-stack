@@ -1,6 +1,7 @@
 // Middleware for handling exceptions inside of
 // async express routes and passing them to your express error handlers.
 const asyncHandler = require("express-async-handler");
+const GoalModel = require("../models/goalModel");
 
 /**
  * @description Get Goals
@@ -8,7 +9,8 @@ const asyncHandler = require("express-async-handler");
  * @access Private
  */
 const getGoals = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Get goals" });
+  const goals = await GoalModel.find();
+  res.status(200).json(goals);
 });
 
 /**
