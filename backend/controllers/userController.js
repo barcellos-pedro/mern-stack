@@ -44,6 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
     _id: user.id,
     name: user.name,
     email: user.email,
+    token: generateToken(user._id),
   });
 });
 
@@ -62,13 +63,13 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const user = await UserlModel.findOne({ email });
 
-  console.log(password, user);
-
+  // Check if user exists and passwords match
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
       _id: user.id,
       name: user.name,
       email: user.email,
+      token: generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -84,6 +85,13 @@ const loginUser = asyncHandler(async (req, res) => {
 const getUserData = asyncHandler(async (req, res) => {
   res.json({ message: "User Data" });
 });
+
+/**
+ * Generate JWT Token
+ */
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+};
 
 module.exports = {
   registerUser,
