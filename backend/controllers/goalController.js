@@ -92,6 +92,14 @@ const deleteGoal = asyncHandler(async (req, res) => {
     throw new Error("Goal not found.");
   }
 
+  const loggedUserId = req.user.id;
+
+  // Make sure logged users only delete their own goals
+  if (goal.user.toString() !== loggedUserId) {
+    res.status(400);
+    throw new Error("User not authorized");
+  }
+
   await GoalModel.findByIdAndDelete(id);
   res.status(200).json({ id });
 });
