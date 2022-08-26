@@ -27,10 +27,10 @@ const protect = asyncHandler(async (req, res, next) => {
     // Get token from header (Bearer <token>)
     token = authorization.split(" ").at(-1);
 
-    // Verify token
+    // Verify token and assign to decoded token variable
     const decoded = jwt.verify(token, SECRET);
 
-    // Get User by Id
+    // Get User by Id (ID from JWT sign on Login/Register)
     // from the decoded token and assign to Request object
     // Remove the password field from the query
     req.user = await UserModel.findById(decoded.id).select("-password");
