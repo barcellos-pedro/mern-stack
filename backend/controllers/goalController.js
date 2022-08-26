@@ -26,7 +26,9 @@ const setGoal = asyncHandler(async (req, res) => {
 
   const newGoal = await GoalModel.create({
     text: req.body.text,
+    user: req.user.id,
   });
+
   res.status(200).json(newGoal);
 });
 
