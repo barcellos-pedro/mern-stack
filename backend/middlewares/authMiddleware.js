@@ -24,11 +24,13 @@ const protect = asyncHandler(async (req, res, next) => {
       // Verify token
       const decoded = jwt.verify(token, SECRET);
 
-      // Get user from the token and assign to req object
-      // Remove encoded password from the query fields
+      // Get User by Id
+      // from the decoded token and assign to Request object
+      // Remove the password field from the query
       req.user = await UserModel.findById(decoded.id).select("-password");
 
-      // Call next middleware
+      // Continue request/response lifecycle
+      // calling next middleware
       next();
     } catch (error) {
       console.log(error);
