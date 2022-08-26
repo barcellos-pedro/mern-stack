@@ -80,7 +80,7 @@ const loginUser = asyncHandler(async (req, res) => {
 /**
  * @description Get User data
  * @route GET /api/users/me
- * @access Public
+ * @access Private
  */
 const getUserData = asyncHandler(async (req, res) => {
   res.json({ message: "User Data" });
@@ -88,6 +88,9 @@ const getUserData = asyncHandler(async (req, res) => {
 
 /**
  * Generate JWT Token
+ *
+ * @param {string} id User _id
+ * @returns {string} JWT Token
  */
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });

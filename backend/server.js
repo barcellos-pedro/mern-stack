@@ -3,7 +3,7 @@ require("colors"); // Pretty console logs
 const express = require("express");
 const port = process.env.PORT || 3000;
 const app = express();
-const { errorHandler } = require("./middlewares/errorMiddleware");
+const errorHandler = require("./middlewares/errorMiddleware");
 const goalRoutes = require("./routes/goalRoutes");
 const userRoutes = require("./routes/userRoutes");
 const connectDB = require("./config/db");
