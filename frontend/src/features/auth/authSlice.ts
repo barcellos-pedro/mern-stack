@@ -13,7 +13,9 @@ const initialState = {
   message: '',
 };
 
-// Register User (Async Thunk/Fn)
+/**
+ * Register User Async Thunk/Function
+ */
 export const register = createAsyncThunk(
   'auth/register',
   async (user, thunkAPI) => {
@@ -42,7 +44,23 @@ export const authSlice = createSlice({
       state.message = '';
     },
   },
-  extraReducers() {},
+  extraReducers(builder) {
+    builder
+      .addCase(register.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.error = true;
+        state.user = null;
+        state.message = action.payload as string;
+        state.loading = false;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.success = true;
+        state.loading = false;
+      });
+  },
 });
 
 // Export actions
