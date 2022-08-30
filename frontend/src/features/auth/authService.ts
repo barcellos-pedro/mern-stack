@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'http://localhost:5000/api/users',
 });
 
 const authService = {
   register(user: any) {
-    return apiClient.post('/api/users', user);
+    return apiClient.post('/', user);
   },
 };
 
