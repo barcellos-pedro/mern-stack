@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AuthState } from '../../types/AuthState';
-import { User } from '../../types/User';
+import { UserDAO } from '../../types/UserDAO';
+import { UserDTO } from '../../types/UserDTO';
 import authService from './authService';
 
 // Get user from localStorage
 const localStorageUser: string | null = localStorage.getItem('user');
-const user: User | null = localStorageUser
+const user: UserDAO | null = localStorageUser
   ? JSON.parse(localStorageUser)
   : null;
 
@@ -22,7 +23,7 @@ const initialState: AuthState = {
  */
 export const register = createAsyncThunk(
   'auth/register',
-  async (user: { name: string; email: string; password: string }, thunkAPI) => {
+  async (user: UserDTO, thunkAPI) => {
     try {
       const { data } = await authService.register(user);
       if (data) {
@@ -66,7 +67,7 @@ export const authSlice = createSlice({
   },
 });
 
-// Export actions
+// Export actions to use on dispatch later
 export const { reset } = authSlice.actions;
 
 // Export reducer

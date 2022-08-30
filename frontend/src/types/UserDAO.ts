@@ -1,4 +1,4 @@
-export type User = {
+export type UserDAO = {
   _id: string;
   name: string;
   email: string;

@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { register, reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
+import { AuthState } from '../types/AuthState';
+import { UserDTO } from '../types/UserDTO';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -24,7 +26,7 @@ function Register() {
 
   // Grab auth state fields
   const { user, loading, error, success, message } = useSelector(
-    (state: any) => state.auth
+    (state: any) => state.auth as AuthState
   );
 
   useEffect(() => {
@@ -62,7 +64,8 @@ function Register() {
     }
 
     // Register new User
-    dispatch(register({ name, email, password }));
+    const newUser: UserDTO = { name, email, password };
+    dispatch(register(newUser));
   };
 
   if (loading) {
