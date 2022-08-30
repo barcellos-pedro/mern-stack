@@ -1,6 +1,7 @@
 require("dotenv").config(); // Load environment variables
 require("colors"); // Pretty console logs
 const express = require("express");
+const cors = require("cors");
 const port = process.env.PORT || 3000;
 const app = express();
 const errorHandler = require("./middlewares/errorMiddleware");
@@ -12,6 +13,7 @@ const connectDB = require("./config/db");
 connectDB();
 
 // Middlewares
+app.use(cors());
 app.use(express.json()); // Parse JSON Requests
 app.use(express.urlencoded({ extended: false })); // Form URL Encoded
 app.use("/api/goals", goalRoutes);
