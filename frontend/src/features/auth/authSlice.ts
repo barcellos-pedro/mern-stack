@@ -1,14 +1,13 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+
 import { AuthState } from '../../types/AuthState';
 import { UserDAO } from '../../types/UserDAO';
-import { UserDTO } from '../../types/UserDTO';
-import authService from './authService';
+import { register } from './authThunks';
 
 // Get user from localStorage
-const localStorageUser: string | null = localStorage.getItem('user');
-const user: UserDAO | null = localStorageUser
-  ? JSON.parse(localStorageUser)
-  : null;
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const user = useLocalStorage<UserDAO>('user');
 
 const initialState: AuthState = {
   user,
@@ -17,25 +16,6 @@ const initialState: AuthState = {
   loading: false,
   message: '',
 };
-
-/**
- * Register User Async Thunk/Function
- */
-export const register = createAsyncThunk(
-  'auth/register',
-  async (user: UserDTO, thunkAPI) => {
-    try {
-      const { data } = await authService.register(user);
-      if (data) {
-        localStorage.setItem('user', JSON.stringify(data));
-      }
-      return data;
-    } catch (error: any) {
-      const message = error?.response?.data?.message || error?.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -56,11 +36,11 @@ export const authSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.error = true;
         state.user = null;
-        state.message = action.payload as string;
+        state.message = action.payload as string; // message from thunkAPI.rejectWithValue
         state.loading = false;
       })
       .addCase(register.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload as UserDAO;
         state.success = true;
         state.loading = false;
       });
