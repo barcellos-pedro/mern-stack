@@ -3,10 +3,10 @@ import authService from './authService';
 
 // Get user from localStorage
 const localStorageUser: string | null = localStorage.getItem('user');
-const parsedUser = localStorageUser || null;
+const user = localStorageUser ? JSON.parse(localStorageUser) : null;
 
 const initialState = {
-  user: parsedUser || null,
+  user,
   error: false,
   success: false,
   loading: false,
@@ -18,7 +18,7 @@ const initialState = {
  */
 export const register = createAsyncThunk(
   'auth/register',
-  async (user, thunkAPI) => {
+  async (user: object, thunkAPI) => {
     try {
       const { data } = await authService.register(user);
       if (data) {
@@ -37,7 +37,6 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     reset(state) {
-      state.user = null;
       state.error = false;
       state.success = false;
       state.loading = false;
