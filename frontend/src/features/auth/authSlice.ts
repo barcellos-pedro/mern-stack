@@ -3,7 +3,7 @@ import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 import { AuthState } from '../../types/AuthState';
 import { UserDAO } from '../../types/UserDAO';
-import { register } from './authThunks';
+import { login, register } from './authThunks';
 
 // Get user from localStorage
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -12,7 +12,6 @@ const user = useLocalStorage<UserDAO>('user');
 const initialState: AuthState = {
   user,
   error: false,
-  success: false,
   loading: false,
   message: '',
 };
@@ -23,7 +22,6 @@ export const authSlice = createSlice({
   reducers: {
     reset(state) {
       state.error = false;
-      state.success = false;
       state.loading = false;
       state.message = '';
     },
@@ -34,6 +32,7 @@ export const authSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      // Register
       .addCase(register.pending, (state) => {
         state.loading = true;
       })
@@ -45,7 +44,21 @@ export const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload as UserDAO;
-        state.success = true;
+        state.loading = false;
+      })
+      // Login
+      .addCase(login.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.error = true;
+        state.user = null;
+        state.message = action.payload as string; // message from thunkAPI.rejectWithValue
+        state.loading = false;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        console.log(action);
+        state.user = action.payload as UserDAO;
         state.loading = false;
       });
   },
