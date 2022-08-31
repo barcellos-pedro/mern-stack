@@ -16,7 +16,9 @@ export const register = createAsyncThunk(
       }
       return data;
     } catch (error: any) {
-      const message = error?.response?.data?.message || error?.toString();
+      const message =
+        error?.response?.data?.message ||
+        'Error when creating the user. Try again.';
       return thunkAPI.rejectWithValue(message);
     }
   }
