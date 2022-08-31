@@ -16,6 +16,7 @@ export function useWatchAuthentication() {
 
   // Dispatch store actions
   const dispatch = useDispatch<any>();
+
   // Grab auth state fields
   const { user, loading, error, message } = useSelector(
     (state: any) => state.auth as AuthState
