@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaSignInAlt } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
 
-import { reset } from '../features/auth/authSlice';
 import { login } from '../features/auth/authThunks';
 import { useForm } from '../hooks/useForm';
-import { AuthState } from '../types/AuthState';
+import { useWatchAuthentication } from '../hooks/useWatchAuthentication';
 
 type FormData = {
   email: string;
@@ -16,28 +12,12 @@ type FormData = {
 };
 
 function Login() {
+  const { loading, dispatch } = useWatchAuthentication();
   const { values, onChangeInput } = useForm<FormData>({
     email: '',
     password: '',
   });
   const { email, password } = values;
-  const navigate = useNavigate();
-  const dispatch = useDispatch<any>();
-  const { user, loading, error, message } = useSelector(
-    (state: any) => state.auth as AuthState
-  );
-
-  useEffect(() => {
-    if (error) {
-      toast.error(message);
-    }
-
-    if (user) {
-      navigate('/');
-    }
-
-    dispatch(reset());
-  }, [error, message, user, dispatch, navigate]);
 
   const onSubmitForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();

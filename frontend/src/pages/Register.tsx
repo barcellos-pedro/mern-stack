@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaUser } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 
-import { reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
-import { AuthState } from '../types/AuthState';
 import { UserDTO } from '../types/UserDTO';
 import { register } from '../features/auth/authThunks';
 import { useForm } from '../hooks/useForm';
+import { useWatchAuthentication } from '../hooks/useWatchAuthentication';
 
 function Register() {
+  const { loading, dispatch } = useWatchAuthentication();
   const { values, onChangeInput } = useForm({
     name: '',
     email: '',
@@ -19,30 +17,6 @@ function Register() {
     confirmPassword: '',
   });
   const { name, email, password, confirmPassword } = values;
-
-  // Use to navigate to other routes
-  const navigate = useNavigate();
-
-  // Dispatch store actions
-  const dispatch = useDispatch<any>();
-
-  // Grab auth state fields
-  const { user, loading, error, message } = useSelector(
-    (state: any) => state.auth as AuthState
-  );
-
-  useEffect(() => {
-    if (error) {
-      toast.error(message);
-    }
-
-    if (user) {
-      navigate('/');
-    }
-
-    // Reset auth state fields minus User
-    dispatch(reset());
-  }, [user, error, message, dispatch, navigate]);
 
   const onSubmitForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
