@@ -1,27 +1,19 @@
-import { FaSignInAlt, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import DefaultNav from './DefaultNav';
+import LoggedInNav from './LoggedInNav';
 
-function Header() {
+type HeaderProps = {
+  isUserLogged: boolean;
+};
+
+function Header({ isUserLogged }: HeaderProps) {
   return (
     <header className="header">
       <div className="logo">
         <Link to="/">Goals</Link>
       </div>
 
-      <div>
-        <ul>
-          <li>
-            <Link to="/login">
-              <FaSignInAlt /> Log in
-            </Link>
-          </li>
-          <li>
-            <Link to="/register">
-              <FaUser /> Register
-            </Link>
-          </li>
-        </ul>
-      </div>
+      <nav>{isUserLogged ? <LoggedInNav /> : <DefaultNav />}</nav>
     </header>
   );
 }
