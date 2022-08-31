@@ -26,7 +26,7 @@ function Register() {
   const dispatch = useDispatch<any>();
 
   // Grab auth state fields
-  const { user, loading, error, success, message } = useSelector(
+  const { user, loading, error, message } = useSelector(
     (state: any) => state.auth as AuthState
   );
 
@@ -41,7 +41,7 @@ function Register() {
 
     // Reset auth state fields minus User
     dispatch(reset());
-  }, [user, error, success, message, dispatch, navigate]);
+  }, [user, error, message, dispatch, navigate]);
 
   /**
    * Update formData fields
@@ -88,6 +88,7 @@ function Register() {
             name="name"
             type="text"
             placeholder="Enter your name"
+            required={true}
             onChange={onChangeInput}
             value={name}
           />
@@ -100,6 +101,7 @@ function Register() {
             name="email"
             type="email"
             placeholder="Enter your email"
+            required={true}
             onChange={onChangeInput}
             value={email}
           />
@@ -112,6 +114,7 @@ function Register() {
             name="password"
             type="password"
             placeholder="Enter your password"
+            required={true}
             onChange={onChangeInput}
             value={password}
           />
@@ -124,6 +127,7 @@ function Register() {
             name="confirmPassword"
             type="password"
             placeholder="Confirm password"
+            required={true}
             onChange={onChangeInput}
             value={confirmPassword}
           />
