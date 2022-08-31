@@ -12,8 +12,7 @@ function Header({ isUserLogged }: HeaderProps) {
       <div className="logo">
         <Link to="/">Goals</Link>
       </div>
-
-      <nav>{isUserLogged ? <LoggedInNav /> : <DefaultNav />}</nav>
+      {isUserLogged ? <LoggedInNav /> : <DefaultNav />}
     </header>
   );
 }

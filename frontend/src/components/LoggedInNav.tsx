@@ -14,13 +14,15 @@ function LoggedInNav() {
   };
 
   return (
-    <ul>
-      <li>
-        <button className="btn" onClick={onLogOut}>
-          <FaSignOutAlt /> Logout
-        </button>
-      </li>
-    </ul>
+    <nav>
+      <ul>
+        <li>
+          <button className="btn" onClick={onLogOut}>
+            <FaSignOutAlt /> Logout
+          </button>
+        </li>
+      </ul>
+    </nav>
   );
 }
 
