@@ -1,5 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSignInAlt } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Spinner from '../components/Spinner';
+
+import { reset } from '../features/auth/authSlice';
+import { login } from '../features/auth/authThunks';
+import { AuthState } from '../types/AuthState';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -8,6 +16,25 @@ function Login() {
   });
 
   const { email, password } = formData;
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch<any>();
+  const { user, loading, error, message } = useSelector(
+    (state: any) => state.auth as AuthState
+  );
+
+  useEffect(() => {
+    if (error) {
+      toast.error(message);
+    }
+
+    if (user) {
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [error, message, user, dispatch, navigate]);
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName } = event.target;
@@ -21,8 +48,12 @@ function Login() {
 
   const onSubmitForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formData);
+    dispatch(login({ email, password }));
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <section className="heading">
@@ -39,6 +70,7 @@ function Login() {
             name="email"
             type="email"
             placeholder="Enter your email"
+            required={true}
             onChange={onChangeInput}
             value={email}
           />
@@ -51,6 +83,7 @@ function Login() {
             name="password"
             type="password"
             placeholder="Enter your password"
+            required={true}
             onChange={onChangeInput}
             value={password}
           />
