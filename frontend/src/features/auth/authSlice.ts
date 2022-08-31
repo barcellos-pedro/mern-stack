@@ -27,6 +27,10 @@ export const authSlice = createSlice({
       state.loading = false;
       state.message = '';
     },
+    logout(state) {
+      localStorage.removeItem('user');
+      state.user = null;
+    },
   },
   extraReducers(builder) {
     builder
@@ -48,7 +52,7 @@ export const authSlice = createSlice({
 });
 
 // Export actions to use on dispatch later
-export const { reset } = authSlice.actions;
+export const { reset, logout } = authSlice.actions;
 
 // Export reducer
 const authReducer = authSlice.reducer;
