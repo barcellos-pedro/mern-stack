@@ -35,7 +35,7 @@ function Register() {
       toast.error(message);
     }
 
-    if (success || user) {
+    if (user) {
       navigate('/');
     }
 
