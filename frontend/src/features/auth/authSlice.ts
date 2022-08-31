@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useLocalStorageItem } from '../../hooks/useLocalStorageItem';
 
 import { AuthState } from '../../types/AuthState';
 import { UserDAO } from '../../types/UserDAO';
@@ -7,7 +7,7 @@ import { login, register } from './authThunks';
 
 // Get user from localStorage
 // eslint-disable-next-line react-hooks/rules-of-hooks
-const user = useLocalStorage<UserDAO>('user');
+const user = useLocalStorageItem<UserDAO>('user');
 
 const initialState: AuthState = {
   user,
