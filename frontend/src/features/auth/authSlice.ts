@@ -57,7 +57,6 @@ export const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action);
         state.user = action.payload as UserDAO;
         state.loading = false;
       });
