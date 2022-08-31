@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -9,15 +9,16 @@ import Spinner from '../components/Spinner';
 import { AuthState } from '../types/AuthState';
 import { UserDTO } from '../types/UserDTO';
 import { register } from '../features/auth/authThunks';
+import { useForm } from '../hooks/useForm';
 
 function Register() {
-  const [formData, setFormData] = useState({
+  const { values, onChangeInput } = useForm({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
-  const { name, email, password, confirmPassword } = formData;
+  const { name, email, password, confirmPassword } = values;
 
   // Use to navigate to other routes
   const navigate = useNavigate();
@@ -42,19 +43,6 @@ function Register() {
     // Reset auth state fields minus User
     dispatch(reset());
   }, [user, error, message, dispatch, navigate]);
-
-  /**
-   * Update formData fields
-   */
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name: inputName } = event.target;
-    const { value: inputValue } = event.target;
-
-    setFormData({
-      ...formData,
-      [inputName]: inputValue,
-    });
-  };
 
   const onSubmitForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FaSignInAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -7,18 +7,21 @@ import Spinner from '../components/Spinner';
 
 import { reset } from '../features/auth/authSlice';
 import { login } from '../features/auth/authThunks';
+import { useForm } from '../hooks/useForm';
 import { AuthState } from '../types/AuthState';
 
+type FormData = {
+  email: string;
+  password: string;
+};
+
 function Login() {
-  const [formData, setFormData] = useState({
+  const { values, onChangeInput } = useForm<FormData>({
     email: '',
     password: '',
   });
-
-  const { email, password } = formData;
-
+  const { email, password } = values;
   const navigate = useNavigate();
-
   const dispatch = useDispatch<any>();
   const { user, loading, error, message } = useSelector(
     (state: any) => state.auth as AuthState
@@ -35,16 +38,6 @@ function Login() {
 
     dispatch(reset());
   }, [error, message, user, dispatch, navigate]);
-
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name: inputName } = event.target;
-    const { value: inputValue } = event.target;
-
-    setFormData({
-      ...formData,
-      [inputName]: inputValue,
-    });
-  };
 
   const onSubmitForm = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
