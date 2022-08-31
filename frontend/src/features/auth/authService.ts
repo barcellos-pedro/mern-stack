@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { UserDAO } from '../../types/UserDAO';
 import { UserDTO } from '../../types/UserDTO';
 
 const apiClient = axios.create({
@@ -7,7 +8,7 @@ const apiClient = axios.create({
 
 const authService = {
   register(user: UserDTO) {
-    return apiClient.post<UserDTO>('/', user);
+    return apiClient.post<UserDAO>('/', user);
   },
 };
 
