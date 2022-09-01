@@ -20,6 +20,13 @@ const goalsService = {
       },
     });
   },
+  deleteGoal(id: string, token: string) {
+    return apiClient.delete<{ id: string }>(`/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
 };
 
 export default goalsService;
