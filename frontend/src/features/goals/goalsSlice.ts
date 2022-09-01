@@ -40,7 +40,11 @@ export const goalsSlice = createSlice({
   },
 });
 
-export const { reset, clearGoals } = goalsSlice.actions;
+// Extract actions object and reducer
+const  { actions, reducer } = goalsSlice;
 
-const goalsReducer = goalsSlice.reducer;
-export default goalsReducer;
+// Export actions to dispatch
+export const { reset, clearGoals } = actions;
+
+// Export reducer to use on configureStore
+export default reducer;

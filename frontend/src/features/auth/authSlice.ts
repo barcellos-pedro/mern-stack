@@ -63,9 +63,11 @@ export const authSlice = createSlice({
   },
 });
 
-// Export actions to use on dispatch later
-export const { reset, logout } = authSlice.actions;
+// Extract actions object and reducer
+const { actions, reducer } = authSlice;
 
-// Export reducer
-const authReducer = authSlice.reducer;
-export default authReducer;
+// Export actions to dispatch
+export const { logout, reset } = actions;
+
+// Export reducer to use on configureStore
+export default reducer;

@@ -29,6 +29,7 @@ function Dashboard() {
       toast.error(message);
     }
 
+    // Reset all fields minus Goals list
     dispatch(reset());
   }, [navigate, user, dispatch, error, message]);
 
