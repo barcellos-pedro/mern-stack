@@ -13,6 +13,13 @@ const goalsService = {
       },
     });
   },
+  createGoal(data: { text: string }, token: string) {
+    return apiClient.post<Goal>('/', data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
 };
 
 export default goalsService;
