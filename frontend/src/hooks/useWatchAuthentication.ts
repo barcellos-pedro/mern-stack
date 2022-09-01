@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
+import { AppDispatch, RootState } from '../app/store';
 import { reset } from '../features/auth/authSlice';
-import { AuthState } from '../types/AuthState';
 
 /**
  * Watch authentication flow.
@@ -15,11 +16,11 @@ export function useWatchAuthentication() {
   const navigate = useNavigate();
 
   // Dispatch store actions
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<AppDispatch>();
 
   // Grab auth state fields
   const { user, loading, error, message } = useSelector(
-    (state: any) => state.auth as AuthState
+    (state: RootState) => state.auth
   );
 
   useEffect(() => {
