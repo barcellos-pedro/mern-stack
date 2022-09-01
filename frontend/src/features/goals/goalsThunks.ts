@@ -77,3 +77,24 @@ export const deleteGoal = createAsyncThunk(
     }
   }
 );
+
+export const updateGoal = createAsyncThunk(
+  'goals/updateGoal',
+  async (payload: { text: string; id: string }, thunkAPI) => {
+    const token = getToken(thunkAPI);
+    if (!token) {
+      throw new Error(NOT_AUTHORIZED_ERROR);
+    }
+
+    try {
+      const { data } = await goalsService.updateGoal(payload, token);
+      return data;
+    } catch (error) {
+      return handleError(
+        thunkAPI,
+        error,
+        'Error to delete Goal. Please try again later.'
+      );
+    }
+  }
+);
