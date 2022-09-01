@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AppDispatch, RootState } from '../app/store';
+import GoalsForm from '../components/GoalsForm';
 import GoalsList from '../components/GoalsList';
 
 import Spinner from '../components/Spinner';
@@ -41,8 +42,16 @@ function Dashboard() {
     <div>
       <h1>Dashboard</h1>
       <h2>Welcome {user && `${user.name}`}</h2>
+      <GoalsForm />
       <section className="content">
-        <GoalsList list={goals} />
+        {goals.length > 0 ? (
+          <GoalsList list={goals} />
+        ) : (
+          <>
+            <h3>No goals right now.</h3>
+            <h4>Make a new one! 🎯</h4>
+          </>
+        )}
       </section>
     </div>
   );
