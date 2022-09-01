@@ -30,8 +30,11 @@ function Dashboard() {
       toast.error(message);
     }
 
-    // Reset all fields minus Goals list
-    dispatch(reset());
+    // Clean up function to run when componentWillUnmount
+    return () => {
+      // Reset all fields minus goals list
+      dispatch(reset());
+    };
   }, [navigate, user, dispatch, error, message]);
 
   if (loading) {
