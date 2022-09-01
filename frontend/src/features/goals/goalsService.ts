@@ -27,6 +27,19 @@ const goalsService = {
       },
     });
   },
+  updateGoal(data: { text: string; id: string }, token: string) {
+    const { id, text } = data;
+    
+    return apiClient.put<Goal>(
+      `/${id}`,
+      { text },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  },
 };
 
 export default goalsService;
