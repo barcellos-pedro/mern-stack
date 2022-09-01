@@ -15,7 +15,11 @@ function GoalItem({ goal }: GoalItemProps) {
       <div>{getGoalDate(goal)}</div>
       <h2>{goal.text}</h2>
       {/* TODO: Delete Goal */}
-      <button onClick={() => console.log('delete goal')} className="close">
+      <button
+        title="Delete Goal"
+        className="close"
+        onClick={() => console.log('delete goal')}
+      >
         X
       </button>
     </div>
