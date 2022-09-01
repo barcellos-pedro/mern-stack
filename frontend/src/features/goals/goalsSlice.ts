@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { GoalsState } from '../../types/GoalsState';
-import { getGoals } from './goalsThunks';
+import { createGoal, getGoals } from './goalsThunks';
 
 const initialState: GoalsState = {
   error: false,
@@ -36,12 +36,25 @@ export const goalsSlice = createSlice({
       .addCase(getGoals.fulfilled, (state, action) => {
         state.goals = action.payload;
         state.loading = false;
+      })
+      // Create Goal
+      .addCase(createGoal.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createGoal.rejected, (state, action) => {
+        state.error = true;
+        state.message = action.payload as string;
+        state.loading = false;
+      })
+      .addCase(createGoal.fulfilled, (state, action) => {
+        state.goals.push(action.payload);
+        state.loading = false;
       });
   },
 });
 
 // Extract actions object and reducer
-const  { actions, reducer } = goalsSlice;
+const { actions, reducer } = goalsSlice;
 
 // Export actions to dispatch
 export const { reset, clearGoals } = actions;
